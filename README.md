@@ -12,7 +12,7 @@ To configure the plugin in LazyVim, add the following code to your plugins confi
 
 ```lua
 return {
-  dir = "quiqueporta/jira.nvim",
+  "quiqueporta/jira.nvim",
   dependencies = { "nvim-telescope/telescope.nvim" },
   name = "jira",
   config = function()
