@@ -49,6 +49,7 @@ return {
 | `email` | Your Jira account email | `""` |
 | `api_token` | Your Jira API token | `""` |
 | `jql` | JQL query to filter issues | `"assignee = currentUser() ORDER BY updated DESC"` |
+| `max_results` | Maximum number of issues to fetch (1-100) | `100` |
 
 ## Usage
 
