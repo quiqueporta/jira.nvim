@@ -39,6 +39,8 @@ return {
 }
 ```
 
+> **Note:** By default, Lazy.nvim installs from the `main` branch. To pin a specific version, add `tag = "v0.1.0"` to the plugin spec.
+
 ## Configuration
 
 | Option | Description | Default |
