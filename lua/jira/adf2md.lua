@@ -64,6 +64,12 @@ node_handlers.emoji = function(node, convert_node)
 	return node.attrs and node.attrs.shortName or ""
 end
 
+node_handlers.inlineCard = function(node, convert_node)
+	local url = node.attrs and node.attrs.url or ""
+	local label = url:match("/browse/([^/]+)$") or url
+	return "[" .. label .. "](" .. url .. ")"
+end
+
 node_handlers.status = function(node, convert_node)
 	local color_map = {
 		blue = "🔵",
@@ -81,7 +87,7 @@ end
 node_handlers.bulletList = function(node, convert_node)
 	local items = {}
 	for _, item in ipairs(node.content or {}) do
-		table.insert(items, "* " .. collect_children(item, convert_node))
+		table.insert(items, "+ " .. collect_children(item, convert_node))
 	end
 	return table.concat(items, "\n")
 end
