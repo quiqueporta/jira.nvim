@@ -23,9 +23,8 @@ return {
       jql = "project = 'PROJECT'",
     })
 
-    vim.keymap.set("n", "<leader>ji", function()
-      require("jira.telescope").issues()
-    end, { desc = "Preview Jira Issues" })
+    vim.keymap.set("n", "<leader>j", "", { desc = "+jira" })
+    vim.keymap.set("n", "<leader>ji", "<cmd>JiraIssues<cr>", { desc = "Jira Issues" })
   end,
 }
 ```
