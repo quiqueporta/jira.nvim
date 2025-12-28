@@ -17,7 +17,7 @@ function M.search_issues()
 		config.jira_url
 			.. "/rest/api/3/search/jql?jql="
 			.. vim.uri_encode(config.jql)
-			.. "&fields=summary,status,assignee",
+			.. "&fields=summary,status,assignee,description",
 		"--user",
 		authentication(),
 		"--header",
