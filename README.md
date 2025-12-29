@@ -61,4 +61,5 @@ Run `:JiraIssues` to open the Telescope picker with your Jira issues.
 |-----|------|--------|
 | `<CR>` | insert/normal | Open issue in browser |
 | `<C-o>` | insert/normal | Open issue description in a new buffer |
+| `<C-t>` | insert/normal | Change issue status (show available transitions) |
 
