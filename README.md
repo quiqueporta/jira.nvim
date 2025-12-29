@@ -11,6 +11,7 @@ A Neovim plugin to browse Jira issues using Telescope.
 - Search and filter Jira issues with custom JQL queries
 - Preview issue details (status, assignee, description) in markdown
 - Open issues in browser or in a Neovim buffer
+- Change issue status with available workflow transitions
 
 ## Requirements
 
