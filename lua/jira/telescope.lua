@@ -4,6 +4,7 @@ local conf = require("telescope.config").values
 local jira = require("jira.jira")
 local previewer = require("jira.previewer")
 local issue_actions = require("jira.issue_actions")
+local config = require("jira").config
 
 local M = {}
 
@@ -15,13 +16,22 @@ local function create_entry_maker(issue)
 	}
 end
 
+local function map_keymap(map, keymap_config, action)
+	local modes = keymap_config.mode
+	if type(modes) == "string" then
+		modes = { modes }
+	end
+	for _, mode in ipairs(modes) do
+		map(mode, keymap_config.key, action)
+	end
+end
+
 local function attach_issue_mappings(_, map)
-	map("i", "<CR>", issue_actions.open_in_browser)
-	map("n", "<CR>", issue_actions.open_in_browser)
-	map("i", "<C-o>", issue_actions.open_in_buffer)
-	map("n", "<C-o>", issue_actions.open_in_buffer)
-	map("i", "<C-t>", issue_actions.show_transitions)
-	map("n", "<C-t>", issue_actions.show_transitions)
+	local keymaps = config.telescope_keymaps
+	map_keymap(map, keymaps.open_browser, issue_actions.open_in_browser)
+	map_keymap(map, keymaps.open_buffer, issue_actions.open_in_buffer)
+	map_keymap(map, keymaps.transitions, issue_actions.show_transitions)
+	map_keymap(map, keymaps.assign_to_me, issue_actions.assign_to_me)
 	return true
 end
 

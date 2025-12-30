@@ -12,6 +12,8 @@ A Neovim plugin to browse Jira issues using Telescope.
 - Preview issue details (status, assignee, description) in markdown
 - Open issues in browser or in a Neovim buffer
 - Change issue status with available workflow transitions
+- Assign issues to yourself
+- Customizable Telescope keybindings
 
 ## Requirements
 
@@ -51,6 +53,27 @@ return {
 | `api_token` | Your Jira API token | `""` |
 | `jql` | Default JQL query (used when no argument is passed to `:JiraIssues`) | `"assignee = currentUser() ORDER BY updated DESC"` |
 | `max_results` | Maximum number of issues to fetch (1-100) | `100` |
+| `telescope_keymaps` | Customize Telescope keybindings (see below) | See defaults |
+
+### Telescope Keymaps Configuration
+
+You can customize the keybindings used in the Telescope picker:
+
+```lua
+require("jira").setup({
+  -- ... other options
+  telescope_keymaps = {
+    open_browser = { key = "<CR>", mode = { "i", "n" } },
+    open_buffer = { key = "<C-o>", mode = { "i", "n" } },
+    transitions = { key = "<C-t>", mode = { "i", "n" } },
+    assign_to_me = { key = "<C-y>", mode = { "i", "n" } },
+  },
+})
+```
+
+Each keymap accepts:
+- `key`: The key combination (e.g., `"<CR>"`, `"<C-o>"`, `"a"`)
+- `mode`: A string or table of modes (`"i"` for insert, `"n"` for normal)
 
 ## Usage
 
@@ -73,11 +96,12 @@ vim.keymap.set("n", "<leader>jo", "<cmd>JiraIssues assignee = currentUser() AND 
 vim.keymap.set("n", "<leader>jr", "<cmd>JiraIssues updated >= -7d ORDER BY updated DESC<cr>", { desc = "Recently Updated" })
 ```
 
-### Keybindings in Telescope
+### Keybindings in Telescope (defaults)
 
 | Key | Mode | Action |
 |-----|------|--------|
 | `<CR>` | insert/normal | Open issue in browser |
 | `<C-o>` | insert/normal | Open issue description in a new buffer |
 | `<C-t>` | insert/normal | Change issue status (show available transitions) |
+| `<C-y>` | insert/normal | Assign issue to yourself |
 

@@ -67,6 +67,9 @@ function M.create(base_url, email, api_token)
 		post = function(path, body)
 			return request("POST", path, vim.json.encode(body))
 		end,
+		put = function(path, body)
+			return request("PUT", path, vim.json.encode(body))
+		end,
 	}
 end
 

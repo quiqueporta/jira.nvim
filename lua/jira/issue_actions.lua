@@ -54,4 +54,13 @@ function M.show_transitions(prompt_bufnr)
 	end)
 end
 
+function M.assign_to_me(prompt_bufnr)
+	local issue = get_selected_issue_and_close(prompt_bufnr)
+	local success = jira.assign_to_me(issue.key)
+
+	if success then
+		vim.notify("Assigned " .. issue.key .. " to me")
+	end
+end
+
 return M

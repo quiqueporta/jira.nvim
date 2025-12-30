@@ -6,6 +6,12 @@ M.config = {
 	api_token = "",
 	jql = "assignee = currentUser() ORDER BY updated DESC",
 	max_results = 100,
+	telescope_keymaps = {
+		open_browser = { key = "<CR>", mode = { "i", "n" } },
+		open_buffer = { key = "<C-o>", mode = { "i", "n" } },
+		transitions = { key = "<C-t>", mode = { "i", "n" } },
+		assign_to_me = { key = "<C-y>", mode = { "i", "n" } },
+	},
 }
 
 function M.setup(opts)

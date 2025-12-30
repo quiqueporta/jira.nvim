@@ -20,6 +20,10 @@ local function transitions_path(issue_key)
 	return string.format("/rest/api/3/issue/%s/transitions", issue_key)
 end
 
+local function assignee_path(issue_key)
+	return string.format("/rest/api/3/issue/%s/assignee", issue_key)
+end
+
 function M.search_issues(jql)
 	local client = get_client()
 	local query = jql or config.jql
@@ -59,6 +63,39 @@ function M.do_transition(issue_key, transition_id)
 
 	if err then
 		vim.notify("Transition failed: " .. err, vim.log.levels.ERROR)
+		return false
+	end
+
+	return true
+end
+
+function M.get_myself()
+	local client = get_client()
+	local response, err = client.get("/rest/api/3/myself")
+
+	if err then
+		vim.notify("Failed to get current user: " .. err, vim.log.levels.ERROR)
+		return nil
+	end
+
+	return response
+end
+
+function M.assign_to_me(issue_key)
+	local myself = M.get_myself()
+	if not myself then
+		return false
+	end
+
+	local client = get_client()
+	local path = assignee_path(issue_key)
+
+	local _, err = client.put(path, {
+		accountId = myself.accountId,
+	})
+
+	if err then
+		vim.notify("Failed to assign issue: " .. err, vim.log.levels.ERROR)
 		return false
 	end
 
