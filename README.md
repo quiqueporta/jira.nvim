@@ -1,5 +1,6 @@
 # jira.nvim
 
+[![Tests](https://github.com/quiqueporta/jira.nvim/actions/workflows/tests.yml/badge.svg)](https://github.com/quiqueporta/jira.nvim/actions/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Neovim](https://img.shields.io/badge/Neovim-0.9+-blueviolet?logo=neovim)](https://neovim.io)
 [![Lua](https://img.shields.io/badge/Lua-blue?logo=lua)](https://www.lua.org)

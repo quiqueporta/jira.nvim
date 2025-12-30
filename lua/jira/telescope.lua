@@ -26,6 +26,9 @@ local function map_keymap(map, keymap_config, action)
 	end
 end
 
+M._create_entry_maker = create_entry_maker
+M._map_keymap = map_keymap
+
 local function attach_issue_mappings(_, map)
 	local keymaps = config.telescope_keymaps
 	map_keymap(map, keymaps.open_browser, issue_actions.open_in_browser)

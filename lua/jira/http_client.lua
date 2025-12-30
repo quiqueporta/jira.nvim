@@ -1,8 +1,13 @@
 local M = {}
 
+M._system = function(cmd)
+	return vim.fn.system(cmd), vim.v.shell_error
+end
+
 local function build_auth_header(email, api_token)
 	local credentials = string.format("%s:%s", email, api_token)
-	return vim.fn.system(string.format("printf '%s'", credentials)):gsub("\n", "")
+	local result = vim.fn.system(string.format("printf '%s'", credentials))
+	return result:gsub("\n", "")
 end
 
 local function build_curl_command(options)
@@ -40,14 +45,12 @@ function M.create(base_url, email, api_token)
 			body = body,
 		})
 
-		local result = vim.fn.system(cmd)
-		local exit_code = vim.v.shell_error
+		local result, exit_code = M._system(cmd)
 
 		if exit_code ~= 0 then
 			return nil, string.format("HTTP request failed with exit code: %d", exit_code)
 		end
 
-		-- Handle empty responses (e.g., 204 No Content)
 		if result == nil or result:match("^%s*$") then
 			return nil, nil
 		end
