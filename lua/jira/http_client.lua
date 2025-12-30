@@ -4,12 +4,6 @@ M._system = function(cmd)
 	return vim.fn.system(cmd), vim.v.shell_error
 end
 
-local function build_auth_header(email, api_token)
-	local credentials = string.format("%s:%s", email, api_token)
-	local result = vim.fn.system(string.format("printf '%s'", credentials))
-	return result:gsub("\n", "")
-end
-
 local function build_curl_command(options)
 	local cmd = {
 		"curl",
@@ -35,7 +29,7 @@ local function build_curl_command(options)
 end
 
 function M.create(base_url, email, api_token)
-	local auth = build_auth_header(email, api_token)
+	local auth = string.format("%s:%s", email, api_token)
 
 	local function request(method, path, body)
 		local cmd = build_curl_command({
