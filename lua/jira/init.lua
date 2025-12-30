@@ -12,9 +12,10 @@ function M.setup(opts)
 	M.config = vim.tbl_deep_extend("force", M.config, opts or {})
 	M.config.max_results = math.max(1, math.min(100, M.config.max_results))
 
-	vim.api.nvim_create_user_command("JiraIssues", function()
-		require("jira.telescope").issues()
-	end, { desc = "Search Jira issues with Telescope" })
+	vim.api.nvim_create_user_command("JiraIssues", function(opts)
+		local jql = opts.args ~= "" and opts.args or nil
+		require("jira.telescope").issues(jql)
+	end, { nargs = "?", desc = "Search Jira issues with Telescope" })
 end
 
 return M

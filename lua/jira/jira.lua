@@ -20,9 +20,10 @@ local function transitions_path(issue_key)
 	return string.format("/rest/api/3/issue/%s/transitions", issue_key)
 end
 
-function M.search_issues()
+function M.search_issues(jql)
 	local client = get_client()
-	local path = search_path(config.jql, { "summary", "status", "assignee", "description" }, config.max_results)
+	local query = jql or config.jql
+	local path = search_path(query, { "summary", "status", "assignee", "description" }, config.max_results)
 
 	local response, err = client.get(path)
 

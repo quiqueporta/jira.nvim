@@ -25,8 +25,8 @@ local function attach_issue_mappings(_, map)
 	return true
 end
 
-function M.issues()
-	local issues = jira.search_issues()
+function M.issues(jql)
+	local issues = jira.search_issues(jql)
 
 	pickers
 		.new({}, {

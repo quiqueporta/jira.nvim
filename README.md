@@ -49,12 +49,29 @@ return {
 | `jira_url` | Your Jira instance URL | `""` |
 | `email` | Your Jira account email | `""` |
 | `api_token` | Your Jira API token | `""` |
-| `jql` | JQL query to filter issues | `"assignee = currentUser() ORDER BY updated DESC"` |
+| `jql` | Default JQL query (used when no argument is passed to `:JiraIssues`) | `"assignee = currentUser() ORDER BY updated DESC"` |
 | `max_results` | Maximum number of issues to fetch (1-100) | `100` |
 
 ## Usage
 
 Run `:JiraIssues` to open the Telescope picker with your Jira issues.
+
+You can also pass a custom JQL query directly to the command:
+
+```vim
+:JiraIssues assignee = currentUser() AND status = Open
+:JiraIssues project = MYPROJ ORDER BY created DESC
+:JiraIssues updated >= -7d
+```
+
+### Example Keymaps
+
+```lua
+vim.keymap.set("n", "<leader>ji", "<cmd>JiraIssues<cr>", { desc = "Jira Issues (default)" })
+vim.keymap.set("n", "<leader>jm", "<cmd>JiraIssues assignee = currentUser() ORDER BY updated DESC<cr>", { desc = "My Issues" })
+vim.keymap.set("n", "<leader>jo", "<cmd>JiraIssues assignee = currentUser() AND resolution = Unresolved<cr>", { desc = "My Open Issues" })
+vim.keymap.set("n", "<leader>jr", "<cmd>JiraIssues updated >= -7d ORDER BY updated DESC<cr>", { desc = "Recently Updated" })
+```
 
 ### Keybindings in Telescope
 
