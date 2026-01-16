@@ -13,6 +13,7 @@ describe("issue_actions", function()
 	local original_do_transition
 	local original_open_url
 	local original_create_buffer
+	local original_create_editable_buffer
 	local original_build_browse_url
 	local original_to_markdown_lines
 
@@ -34,6 +35,7 @@ describe("issue_actions", function()
 		original_do_transition = jira.do_transition
 		original_open_url = buffer_utils.open_url
 		original_create_buffer = buffer_utils.create_readonly_markdown_buffer
+		original_create_editable_buffer = buffer_utils.create_editable_jira_buffer
 		original_build_browse_url = issue_formatter.build_browse_url
 		original_to_markdown_lines = issue_formatter.to_markdown_lines
 
@@ -51,6 +53,7 @@ describe("issue_actions", function()
 		jira.do_transition = original_do_transition
 		buffer_utils.open_url = original_open_url
 		buffer_utils.create_readonly_markdown_buffer = original_create_buffer
+		buffer_utils.create_editable_jira_buffer = original_create_editable_buffer
 		issue_formatter.build_browse_url = original_build_browse_url
 		issue_formatter.to_markdown_lines = original_to_markdown_lines
 	end)
@@ -87,10 +90,12 @@ describe("issue_actions", function()
 	end)
 
 	describe("open_in_buffer", function()
-		it("should create a markdown buffer with issue lines", function()
+		it("should create an editable buffer with issue lines and key", function()
 			local created_lines = nil
-			buffer_utils.create_readonly_markdown_buffer = function(lines)
+			local created_key = nil
+			buffer_utils.create_editable_jira_buffer = function(lines, issue_key)
 				created_lines = lines
+				created_key = issue_key
 				return 1
 			end
 			issue_formatter.to_markdown_lines = function()
@@ -102,6 +107,7 @@ describe("issue_actions", function()
 			assert.is_not_nil(created_lines)
 			assert.equals(3, #created_lines)
 			assert.equals("# TEST-123", created_lines[1])
+			assert.equals("TEST-123", created_key)
 		end)
 	end)
 

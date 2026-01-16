@@ -24,6 +24,10 @@ local function assignee_path(issue_key)
 	return string.format("/rest/api/3/issue/%s/assignee", issue_key)
 end
 
+local function issue_path(issue_key)
+	return string.format("/rest/api/3/issue/%s", issue_key)
+end
+
 function M.search_issues(jql)
 	local client = get_client()
 	local query = jql or config.jql
@@ -96,6 +100,22 @@ function M.assign_to_me(issue_key)
 
 	if err then
 		vim.notify("Failed to assign issue: " .. err, vim.log.levels.ERROR)
+		return false
+	end
+
+	return true
+end
+
+function M.update_description(issue_key, adf_content)
+	local client = get_client()
+	local path = issue_path(issue_key)
+
+	local _, err = client.put(path, {
+		fields = { description = adf_content },
+	})
+
+	if err then
+		vim.notify("Failed to update description: " .. err, vim.log.levels.ERROR)
 		return false
 	end
 

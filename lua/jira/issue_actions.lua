@@ -25,7 +25,7 @@ function M.open_in_buffer(prompt_bufnr)
 	local issue = get_selected_issue_and_close(prompt_bufnr)
 	local lines = issue_formatter.to_markdown_lines(issue)
 
-	buffer_utils.create_readonly_markdown_buffer(lines)
+	buffer_utils.create_editable_jira_buffer(lines, issue.key)
 end
 
 function M.show_transitions(prompt_bufnr)

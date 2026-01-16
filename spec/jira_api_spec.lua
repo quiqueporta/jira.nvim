@@ -224,4 +224,52 @@ describe("jira api", function()
 			assert.is_false(success)
 		end)
 	end)
+
+	describe("update_description", function()
+		it("should return true on success", function()
+			http_client._system = function()
+				return "", 0
+			end
+
+			local adf = { type = "doc", version = 1, content = {} }
+			local success = jira.update_description("TEST-1", adf)
+
+			assert.is_true(success)
+		end)
+
+		it("should send PUT with description in fields", function()
+			local captured_cmd = nil
+			http_client._system = function(cmd)
+				captured_cmd = cmd
+				return "", 0
+			end
+
+			local adf = { type = "doc", version = 1, content = {} }
+			jira.update_description("TEST-1", adf)
+
+			assert.equals("PUT", captured_cmd[4])
+			local url = captured_cmd[6]
+			assert.matches("/rest/api/3/issue/TEST%-1$", url)
+			local data_index = nil
+			for i, v in ipairs(captured_cmd) do
+				if v == "--data" then
+					data_index = i + 1
+					break
+				end
+			end
+			assert.matches('"fields"', captured_cmd[data_index])
+			assert.matches('"description"', captured_cmd[data_index])
+		end)
+
+		it("should return false on error", function()
+			http_client._system = function()
+				return "", 1
+			end
+
+			local adf = { type = "doc", version = 1, content = {} }
+			local success = jira.update_description("TEST-1", adf)
+
+			assert.is_false(success)
+		end)
+	end)
 end)
