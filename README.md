@@ -12,6 +12,7 @@ A Neovim plugin to browse Jira issues using Telescope.
 - Search and filter Jira issues with custom JQL queries
 - Preview issue details (status, assignee, description) in markdown
 - Open issues in browser or in a Neovim buffer
+- Edit issue descriptions and sync changes to Jira
 - Change issue status with available workflow transitions
 - Assign issues to yourself
 - Customizable Telescope keybindings
@@ -102,7 +103,25 @@ vim.keymap.set("n", "<leader>jr", "<cmd>JiraIssues updated >= -7d ORDER BY updat
 | Key | Mode | Action |
 |-----|------|--------|
 | `<CR>` | insert/normal | Open issue in browser |
-| `<C-o>` | insert/normal | Open issue description in a new buffer |
+| `<C-o>` | insert/normal | Open issue description in an editable buffer |
 | `<C-t>` | insert/normal | Change issue status (show available transitions) |
 | `<C-y>` | insert/normal | Assign issue to yourself |
+
+### Editing Issue Descriptions
+
+When you open an issue with `<C-o>`, the description is displayed in an editable buffer. You can modify the description and save with `:w` to sync changes to Jira (a confirmation dialog will appear).
+
+Supported Markdown syntax:
+
+- **Bold**: `**text**`
+- *Italic*: `*text*`
+- `Code`: `` `code` ``
+- ~~Strikethrough~~: `~~text~~`
+- Links: `[text](url)`
+- Headers: `# H1`, `## H2`, etc.
+- Lists: `+ item` or `1. item`
+- Code blocks: ` ```language `
+- Blockquotes: `> quote`
+
+> **Note:** Not all Jira formatting features are supported yet. Complex elements like tables, panels, or embedded media may not convert correctly.
 
